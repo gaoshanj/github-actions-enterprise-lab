@@ -1,0 +1,23 @@
+name: Final Capstone - student
+
+on:
+  # TODO 1: Use workflow_dispatch.
+
+permissions:
+  contents: TODO_READ_PERMISSION
+
+jobs:
+  validate:
+    runs-on: TODO_RUNNER
+    steps:
+      - uses: TODO_CHECKOUT_ACTION
+      - uses: TODO_SETUP_ACTION
+      - run: TODO_LINT_COMMAND
+        working-directory: app/order-service
+      - run: TODO_TEST_COMMAND
+        working-directory: app/order-service
+      - run: TODO_BUILD_COMMAND
+        working-directory: app/order-service
+      - run: |
+          # TODO 2: Append a Capstone result to GITHUB_STEP_SUMMARY.
+          TODO_SUMMARY_COMMAND

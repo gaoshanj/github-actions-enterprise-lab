@@ -1,0 +1,21 @@
+name: Self-hosted Runner Lab
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-check:
+    runs-on: [self-hosted, linux, x64, training, codespace, ephemeral]
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "runner_name=$RUNNER_NAME"
+          echo "runner_os=$RUNNER_OS"
+          echo "runner_arch=$RUNNER_ARCH"
+          uname -a
+      - uses: ./.github/actions/setup-project
+      - run: npm test
+        working-directory: app/order-service

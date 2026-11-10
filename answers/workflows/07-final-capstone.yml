@@ -1,0 +1,27 @@
+name: Final Capstone
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - run: npm run lint
+        working-directory: app/order-service
+      - run: npm test
+        working-directory: app/order-service
+      - run: npm run build
+        working-directory: app/order-service
+      - run: |
+          {
+            echo "## Capstone result"
+            echo "- Node: $(node --version)"
+            echo "- Tests: passed"
+            echo "- Build: passed"
+          } >> "$GITHUB_STEP_SUMMARY"

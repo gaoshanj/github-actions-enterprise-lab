@@ -1,0 +1,58 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: ./.github/actions/setup-project
+      - run: npm test
+        working-directory: app/order-service
+      - run: docker build -t order-service:${{ steps.meta.outputs.tag }} app/order-service
+      - run: docker save order-service:${{ steps.meta.outputs.tag }} -o order-service.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: order-service-image
+          path: order-service.tar
+
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - run: |
+          node -e "const net=require('net'); const socket=net.createConnection(6379,'127.0.0.1'); socket.on('connect',()=>{console.log('Redis service is reachable'); socket.end();}); socket.on('error',(error)=>{console.error(error); process.exit(1);});"
+          npm test
+        working-directory: app/order-service
+
+  staging:
+    needs: [build, integration]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: |
+          echo "Deploying image tag ${{ needs.build.outputs.image-tag }} to staging"
+          echo "This training deployment is intentionally simulated."

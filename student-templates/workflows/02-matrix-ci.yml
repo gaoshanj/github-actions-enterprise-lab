@@ -1,0 +1,32 @@
+name: Matrix CI - student
+
+# TODO 1: Run for pull requests and manual dispatch.
+on:
+  # TODO: add pull_request and workflow_dispatch.
+
+permissions:
+  # TODO 2: Use contents: read.
+  contents: TODO_READ_PERMISSION
+
+# TODO 3: Cancel an older run for the same workflow and ref.
+concurrency:
+  group: TODO_CONCURRENCY_GROUP
+  cancel-in-progress: TODO_BOOLEAN
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO 4: Test Node.js 20 and 22.
+        node: [TODO_NODE_VERSION_1, TODO_NODE_VERSION_2]
+    # TODO 5: Use ubuntu-latest.
+    runs-on: TODO_RUNNER
+    steps:
+      - uses: TODO_CHECKOUT_ACTION
+      - uses: TODO_SETUP_ACTION
+        with:
+          # TODO 6: Pass the matrix Node.js version to the local action.
+          node-version: TODO_MATRIX_NODE
+      - run: npm test
+        working-directory: app/order-service

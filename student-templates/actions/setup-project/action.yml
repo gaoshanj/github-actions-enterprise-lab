@@ -1,0 +1,22 @@
+name: Setup Node project - student
+description: 'TODO: describe the local Node.js setup action'
+inputs:
+  node-version:
+    description: 'TODO: describe the Node.js version input'
+    required: false
+    # TODO 1: Default to Node.js 22.
+    default: TODO_NODE_VERSION
+runs:
+  using: composite
+  steps:
+    # TODO 2: Use actions/setup-node@v4 with the input version.
+    - uses: TODO_SETUP_NODE_ACTION
+      with:
+        node-version: ${{ inputs.node-version }}
+        # TODO 3: Enable npm cache and point to app/order-service/package-lock.json.
+        cache: TODO_CACHE_TYPE
+        cache-dependency-path: TODO_LOCKFILE_PATH
+    # TODO 4: Run npm ci in app/order-service with bash.
+    - shell: TODO_SHELL
+      run: TODO_INSTALL_COMMAND
+      working-directory: TODO_APP_DIRECTORY

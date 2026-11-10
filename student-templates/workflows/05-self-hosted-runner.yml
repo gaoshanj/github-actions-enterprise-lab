@@ -1,0 +1,22 @@
+name: Self-hosted Runner Lab - student
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: TODO_READ_PERMISSION
+
+jobs:
+  runner-check:
+    # TODO: Require self-hosted, linux, x64, training, codespace, and ephemeral labels.
+    runs-on: [TODO_RUNNER_LABELS]
+    steps:
+      - uses: TODO_CHECKOUT_ACTION
+      - run: |
+          echo "runner_name=$RUNNER_NAME"
+          echo "runner_os=$RUNNER_OS"
+          echo "runner_arch=$RUNNER_ARCH"
+          uname -a
+      - uses: TODO_SETUP_ACTION
+      - run: npm test
+        working-directory: app/order-service

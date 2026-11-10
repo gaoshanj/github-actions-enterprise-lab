@@ -61,3 +61,23 @@ English runner guide: [`docs/runner-guide.en-US.md`](docs/runner-guide.en-US.md)
 
 Never commit runner registration tokens, GitHub App private keys, cloud credentials, or production secrets.
 严禁提交 Runner 注册 Token、GitHub App 私钥、云凭据或生产 Secret。
+
+## Exploratory workflow mode / 探索式 Workflow 模式
+
+中文探索式手册：[`labs/exploration-guide.zh-CN.md`](labs/exploration-guide.zh-CN.md)
+English exploratory guide: [`labs/exploration-guide.en-US.md`](labs/exploration-guide.en-US.md)
+
+正确答案保存在 `answers/`，学员待补全模板保存在 `student-templates/`。
+Complete solutions are stored in `answers/`; incomplete learner templates are stored in `student-templates/`.
+
+在临时分支启用学员模板：
+
+```bash
+bash scripts/prepare-student-mode.sh
+```
+
+恢复讲师可运行基线：
+
+```bash
+bash scripts/restore-instructor-mode.sh
+```

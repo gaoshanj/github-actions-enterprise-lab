@@ -1,0 +1,16 @@
+name: Reusable workflow consumer - student
+
+# TODO 1: Run for pull requests and manual dispatch.
+on:
+  # TODO: add pull_request and workflow_dispatch.
+
+permissions:
+  contents: TODO_READ_PERMISSION
+
+jobs:
+  standard-ci:
+    # TODO 2: Call the local reusable workflow.
+    uses: TODO_REUSABLE_WORKFLOW
+    with:
+      # TODO 3: Pass Node.js 22.
+      node-version: TODO_NODE_VERSION
