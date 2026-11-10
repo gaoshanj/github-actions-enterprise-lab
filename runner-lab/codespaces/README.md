@@ -1,24 +1,9 @@
-# Codespaces Runner Lab
+# Codespaces Runner Lab / Codespaces Runner 实验
+
+中文详细步骤：[`../../docs/runner-guide.zh-CN.md`](../../docs/runner-guide.zh-CN.md)
+
+Detailed English steps: [`../../docs/runner-guide.en-US.md`](../../docs/runner-guide.en-US.md)
 
 Use a disposable Codespace or a dedicated runner Codespace. Do not register the same Codespace that edits untrusted pull requests.
 
-## Procedure
-
-1. Confirm `gh auth status`.
-2. Confirm repository admin or runner-management permission.
-3. Obtain a short-lived registration token:
-
-```bash
-RUNNER_TOKEN="$(gh api --method POST \
-  "repos/$GITHUB_ORG/$RUNNER_LAB_REPO/actions/runners/registration-token" \
-  --jq '.token')"
-```
-
-4. Run `bash install-runner.sh`.
-5. Start `bash start-runner.sh`.
-6. Dispatch workflow `05-self-hosted-runner.yml`.
-7. Verify the job uses labels `training`, `codespace`, and `ephemeral`.
-8. Confirm the runner disappears after one job.
-9. Run `bash cleanup-runner.sh`.
-
-Never save `RUNNER_TOKEN` in a file or commit the runner directory.
+请使用一次性 Codespace 或专用 Runner Codespace，不要在处理不可信 Pull Request 的同一个 Codespace 中注册 Runner。
