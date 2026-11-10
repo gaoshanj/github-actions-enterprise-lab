@@ -27,8 +27,29 @@ jobs:
           name: order-service-image
           path: order-service.tar
 
-  staging:
+  integration:
     needs: build
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - run: |
+          getent hosts redis
+          npm test
+        working-directory: app/order-service
+
+  staging:
+    needs: [build, integration]
     runs-on: ubuntu-latest
     environment: staging
     steps:
