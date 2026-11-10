@@ -1,0 +1,7 @@
+# Training reference only. Do not apply without reviewing the current ARC chart schema.
+githubConfigUrl: https://github.com/ORG/REPO
+runnerScaleSetName: training-arc
+runnerGroup: training-runners
+minRunners: 0
+maxRunners: 3
+containerMode: kubernetes

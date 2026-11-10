@@ -1,0 +1,11 @@
+{
+  "name": "order-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node --check src/orders.js && node --check test/orders.test.js",
+    "test": "node --test",
+    "build": "node -e \"const fs=require('fs'); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('src/orders.js','dist/orders.js')\""
+  }
+}

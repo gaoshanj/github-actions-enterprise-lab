@@ -1,0 +1,27 @@
+name: Basic CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - run: npm run lint
+        working-directory: app/order-service
+      - run: npm test
+        working-directory: app/order-service
+      - run: npm run build
+        working-directory: app/order-service
+      - uses: actions/upload-artifact@v4
+        with:
+          name: order-service-dist
+          path: app/order-service/dist/

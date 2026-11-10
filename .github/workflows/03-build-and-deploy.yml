@@ -1,0 +1,37 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: ./.github/actions/setup-project
+      - run: npm test
+        working-directory: app/order-service
+      - run: docker build -t order-service:${{ steps.meta.outputs.tag }} app/order-service
+      - run: docker save order-service:${{ steps.meta.outputs.tag }} -o order-service.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: order-service-image
+          path: order-service.tar
+
+  staging:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: |
+          echo "Deploying image tag ${{ needs.build.outputs.image-tag }} to staging"
+          echo "This training deployment is intentionally simulated."
