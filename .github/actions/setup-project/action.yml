@@ -1,18 +1,21 @@
-name: Setup Node project
-description: Install Node.js dependencies with npm cache
+name: Setup Node project - student
+description: Set up Node.js dependencies for the order service
 inputs:
   node-version:
-    description: Node.js version
+    description: Node.js version to install
     required: false
-    default: '22'
+    # TODO 1: Default this input to Node.js 22.
+    default: TODO_NODE_VERSION
 runs:
   using: composite
   steps:
     - uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: npm
-        cache-dependency-path: app/order-service/package-lock.json
+        # TODO 2: Enable npm cache and point to app/order-service/package-lock.json.
+        cache: TODO_CACHE_TYPE
+        cache-dependency-path: TODO_LOCKFILE_PATH
+    # TODO 3: Run npm ci in app/order-service with bash.
     - shell: bash
-      run: npm ci
-      working-directory: app/order-service
+      run: TODO_INSTALL_COMMAND
+      working-directory: TODO_APP_DIRECTORY

@@ -1,14 +1,16 @@
-name: Reusable workflow consumer
+name: Reusable workflow consumer - student
 
+# TODO 1: Configure pull_request and workflow_dispatch.
 on:
-  pull_request:
-  workflow_dispatch:
+  # Add both events here.
 
 permissions:
-  contents: read
+  contents: TODO_READ_PERMISSION
 
 jobs:
   standard-ci:
-    uses: ./.github/workflows/reusable-node-ci.yml
+    # TODO 2: Call the local reusable workflow.
+    uses: TODO_REUSABLE_WORKFLOW
     with:
-      node-version: '22'
+      # TODO 3: Pass Node.js 22.
+      node-version: TODO_NODE_VERSION

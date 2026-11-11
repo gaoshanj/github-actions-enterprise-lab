@@ -1,7 +1,7 @@
-name: Final Capstone
+name: Final Capstone - student
 
 on:
-  workflow_dispatch:
+  # TODO 1: Use workflow_dispatch.
 
 permissions:
   contents: read
@@ -18,10 +18,5 @@ jobs:
         working-directory: app/order-service
       - run: npm run build
         working-directory: app/order-service
-      - run: |
-          {
-            echo "## Capstone result"
-            echo "- Node: $(node --version)"
-            echo "- Tests: passed"
-            echo "- Build: passed"
-          } >> "$GITHUB_STEP_SUMMARY"
+      # TODO 2: Append a Capstone result to GITHUB_STEP_SUMMARY.
+      - run: TODO_SUMMARY_COMMAND

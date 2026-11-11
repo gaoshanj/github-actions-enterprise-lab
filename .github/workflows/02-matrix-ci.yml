@@ -1,27 +1,31 @@
-name: Matrix CI
+name: Matrix CI - student
 
+# TODO 1: Configure pull_request and workflow_dispatch.
 on:
-  pull_request:
-  workflow_dispatch:
+  # Add both events here.
 
 permissions:
-  contents: read
+  # Use contents: read.
+  contents: TODO_READ_PERMISSION
 
+# TODO 2: Cancel an older run for the same workflow and ref.
 concurrency:
-  group: matrix-ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: TODO_CONCURRENCY_GROUP
+  cancel-in-progress: TODO_BOOLEAN
 
 jobs:
   test:
     strategy:
       fail-fast: false
       matrix:
-        node: ['20', '22']
+        # TODO 3: Test the two supported Node.js versions.
+        node: [TODO_NODE_VERSION_1, TODO_NODE_VERSION_2]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-project
         with:
-          node-version: ${{ matrix.node }}
+          # TODO 4: Pass the selected matrix version to the local action.
+          node-version: TODO_MATRIX_NODE
       - run: npm test
         working-directory: app/order-service

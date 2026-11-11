@@ -1,4 +1,4 @@
-name: Self-hosted Runner Lab
+name: Self-hosted Runner Lab - student
 
 on:
   workflow_dispatch:
@@ -8,7 +8,8 @@ permissions:
 
 jobs:
   runner-check:
-    runs-on: [self-hosted, linux, x64, training, codespace, ephemeral]
+    # TODO 1: Require all six labels in the correct AND-matching list.
+    runs-on: [TODO_RUNNER_LABELS]
     steps:
       - uses: actions/checkout@v4
       - run: |

@@ -1,23 +1,20 @@
-name: Reusable Node CI
+name: Reusable Node CI - student
 
+# TODO 1: Make this workflow callable and define its input.
 on:
-  workflow_call:
-    inputs:
-      node-version:
-        required: false
-        type: string
-        default: '22'
+  # Add workflow_call with a required string input named node-version.
 
 permissions:
   contents: read
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: TODO_RUNNER
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-project
         with:
-          node-version: ${{ inputs.node-version }}
+          # TODO 2: Use the workflow input.
+          node-version: TODO_NODE_INPUT
       - run: npm test
         working-directory: app/order-service
