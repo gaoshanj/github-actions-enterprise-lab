@@ -22,7 +22,7 @@ git status --short
 2. 将 `student-templates/workflows/` 复制到 `.github/workflows/`。
 3. 将学员 Composite Action 复制到 `.github/actions/setup-project/action.yml`。
 
-完成后，所有 TODO 都需要由学员补全，Workflow 才能正常执行。
+每个 YAML 最多包含 4 处需要学员补全的内容，且每个模块的 TODO 对应本模块的核心知识点。其余样板代码保持完整，避免把实验变成机械填空。
 
 > 不要在 `main` 分支执行学员模式。请先创建临时分支或单独的 Codespace 分支。
 
@@ -93,47 +93,42 @@ grep -R "TODO_\|TODO:" .github/workflows .github/actions
 
 ### 3.1 Basic CI
 
-必须补全：
+补全以下 4 处：
 
-- `push` 的 `main` 分支过滤。
-- `pull_request` 和 `workflow_dispatch`。
-- `contents: read`。
-- `ubuntu-latest`。
-- `actions/checkout@v4`。
-- 本地 Composite Action。
-- `npm run lint`、`npm test`、`npm run build`。
-- `app/order-service` 工作目录。
-- `order-service-dist` Artifact。
+- 事件配置：`push` 到 `main`、`pull_request`、`workflow_dispatch`。
+- `contents: read` 权限。
+- GitHub-hosted Ubuntu Runner。
+- Artifact 的上传位置和名称。
+
+Checkout、Composite Action、Node 命令和工作目录已提供，重点练习基础触发器、最小权限、Runner 与 Artifact。
 
 ### 3.2 Matrix CI
 
-必须补全：
+补全以下 4 处：
 
 - Pull Request 和手动触发。
-- `contents: read`。
-- 按 Workflow 和 Git ref 分组的并发控制。
-- `cancel-in-progress: true`。
-- Node.js `20` 和 `22`。
-- `${{ matrix.node }}`。
+- 按 Workflow 与 Git ref 分组的并发控制，并启用取消旧运行。
+- Node.js `20` 和 `22` 的 Matrix。
+- 将 Matrix 版本传给 Composite Action。
+
+权限、Runner、Checkout 和测试命令已提供，重点练习 Matrix、Concurrency 和动态输入。
 
 ### 3.3 Build and Deploy
 
-必须补全：
+补全以下 4 处：
 
-- `build` Job 输出 `image-tag`。
-- `${{ steps.meta.outputs.tag }}`。
-- Docker build 和 Docker save。
-- Redis Service Container。
-- `needs: build`。
-- `localhost:6379` 连接检查。
-- `needs: [build, integration]`。
-- `environment: staging`。
+- push 到 `main` 和手动触发。
+- `build` Job 输出引用：`${{ steps.meta.outputs.tag }}`。
+- integration Job 对 `build` 的依赖。
+- staging Job 同时依赖两个前置 Job，并绑定 `staging` Environment。
+
+Docker、Redis Service Container、健康检查和 Artifact 样板已提供，重点练习 Job 输出、Job 依赖和 Environment。
 
 Service Container 在宿主 Runner Job 中通过发布端口访问，本实验使用 `localhost:6379`，不要直接照搬容器网络场景中的 `redis` 主机名。
 
 ### 3.4 Reusable Workflow
 
-调用方需要：
+调用方补全以下 3 处：
 
 ```yaml
 uses: ./.github/workflows/reusable-node-ci.yml
@@ -141,16 +136,16 @@ with:
   node-version: '22'
 ```
 
-被调用 Workflow 需要：
+被调用 Workflow 只补全以下 2 处：
 
 - `workflow_call`。
-- 字符串输入 `node-version`。
-- 默认值 `22`。
-- 使用 `${{ inputs.node-version }}`。
+- 定义 `node-version` 字符串输入，并在 Job 中使用 `${{ inputs.node-version }}`。
+
+权限、Runner、Checkout 和 Composite Action 已提供，重点练习调用方与被调用方的接口契约。
 
 ### 3.5 Self-hosted Runner
 
-`runs-on` 必须同时匹配：
+只补全 1 处：`runs-on` 必须同时匹配：
 
 ```yaml
 [self-hosted, linux, x64, training, codespace, ephemeral]
@@ -160,17 +155,22 @@ with:
 
 ### 3.6 CodeQL
 
-必须补全：
+补全以下 3 处：
 
-- `push` 到 `main`。
-- `pull_request`。
-- 每周定时任务。
-- `workflow_dispatch`。
-- `contents: read`。
-- `security-events: write`。
-- `github/codeql-action/init@v3`。
-- `languages: javascript`。
-- `autobuild` 和 `analyze`。
+- push 到 `main`、pull_request、每周定时任务和 workflow_dispatch。
+- `security-events: write` 权限。
+- JavaScript 扫描语言。
+
+Checkout、Runner、CodeQL Init/Autobuild/Analyze 已提供，重点练习事件、权限和语言配置。
+
+### 3.7 Final Capstone
+
+补全以下 2 处：
+
+- `workflow_dispatch` 手动触发。
+- 将验收结果写入 `GITHUB_STEP_SUMMARY`。
+
+其它 CI 步骤已提供，重点练习手动执行和 Job Summary。
 
 ## 4. 正确答案检查
 

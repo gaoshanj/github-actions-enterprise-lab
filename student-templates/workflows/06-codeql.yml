@@ -1,22 +1,22 @@
 name: CodeQL - student
 
-# TODO 1: Add push to main, pull_request, a weekly schedule, and workflow_dispatch.
+# TODO 1: Configure push to main, pull_request, a weekly schedule, and workflow_dispatch.
 on:
-  # TODO: add the required events.
+  # Add the required events here.
 
 permissions:
-  contents: TODO_READ_PERMISSION
+  contents: read
   # TODO 2: Allow CodeQL to upload security results.
   security-events: TODO_SECURITY_PERMISSION
 
 jobs:
   analyze:
-    runs-on: TODO_RUNNER
+    runs-on: ubuntu-latest
     steps:
-      - uses: TODO_CHECKOUT_ACTION
-      - uses: TODO_CODEQL_INIT_ACTION
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
         with:
-          # TODO 3: Analyze JavaScript.
+          # TODO 3: Select the application language.
           languages: TODO_LANGUAGE
-      - uses: TODO_CODEQL_AUTOBUILD_ACTION
-      - uses: TODO_CODEQL_ANALYZE_ACTION
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3

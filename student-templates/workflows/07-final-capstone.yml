@@ -4,20 +4,19 @@ on:
   # TODO 1: Use workflow_dispatch.
 
 permissions:
-  contents: TODO_READ_PERMISSION
+  contents: read
 
 jobs:
   validate:
-    runs-on: TODO_RUNNER
+    runs-on: ubuntu-latest
     steps:
-      - uses: TODO_CHECKOUT_ACTION
-      - uses: TODO_SETUP_ACTION
-      - run: TODO_LINT_COMMAND
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - run: npm run lint
         working-directory: app/order-service
-      - run: TODO_TEST_COMMAND
+      - run: npm test
         working-directory: app/order-service
-      - run: TODO_BUILD_COMMAND
+      - run: npm run build
         working-directory: app/order-service
-      - run: |
-          # TODO 2: Append a Capstone result to GITHUB_STEP_SUMMARY.
-          TODO_SUMMARY_COMMAND
+      # TODO 2: Append a Capstone result to GITHUB_STEP_SUMMARY.
+      - run: TODO_SUMMARY_COMMAND

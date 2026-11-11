@@ -22,7 +22,7 @@ The script:
 2. Copies `student-templates/workflows/` into `.github/workflows/`.
 3. Copies the student Composite Action into `.github/actions/setup-project/action.yml`.
 
-The workflows are expected to fail or remain incomplete until the learner resolves every TODO.
+Each YAML file contains at most four learner-completion points. The TODOs are different for each module and map to that module's core concepts; the remaining boilerplate is complete so the exercise focuses on reasoning instead of repetitive typing.
 
 > Do not run student mode on `main`. Use a temporary branch or a separate Codespace branch.
 
@@ -87,21 +87,42 @@ Record the Workflow Run URL, job name, result, failure log location, and YAML li
 
 ### 3.1 Basic CI
 
-Complete the `main` push filter, pull request and manual triggers, `contents: read`, `ubuntu-latest`, checkout, the local Composite Action, lint/test/build commands, the application working directory, and the `order-service-dist` artifact.
+Complete these four points:
+
+- Events: push to `main`, pull request, and manual dispatch.
+- `contents: read` permission.
+- GitHub-hosted Ubuntu runner.
+- Artifact name and path.
+
+Checkout, the Composite Action, Node commands, and working directory are provided. This module focuses on triggers, least privilege, runner selection, and artifacts.
 
 ### 3.2 Matrix CI
 
-Complete pull request and manual triggers, `contents: read`, concurrency grouping, `cancel-in-progress: true`, Node.js 20 and 22, and `${{ matrix.node }}`.
+Complete these four points:
+
+- Pull request and manual triggers.
+- Concurrency grouping by workflow and Git ref, with cancellation of older runs.
+- Node.js 20 and 22 matrix values.
+- Passing the matrix version to the Composite Action.
+
+Permissions, runner, checkout, and test commands are provided. This module focuses on Matrix, Concurrency, and dynamic inputs.
 
 ### 3.3 Build and Deploy
 
-Complete the `build` output `${{ steps.meta.outputs.tag }}`, Docker build/save, Redis service container, `needs: build`, the `localhost:6379` connectivity check, `needs: [build, integration]`, and `environment: staging`.
+Complete these four points:
+
+- Push to `main` and manual dispatch.
+- The `build` output reference `${{ steps.meta.outputs.tag }}`.
+- The integration job dependency on `build`.
+- The staging job dependency on both upstream jobs and its `staging` Environment.
+
+Docker, the Redis service container, health checks, and artifact steps are provided. This module focuses on job outputs, dependencies, and Environments.
 
 For a host runner job, a published service-container port is reached through `localhost`. This lab uses `localhost:6379`; do not copy the `redis` hostname from a job-container network example.
 
 ### 3.4 Reusable Workflow
 
-The caller must use:
+The caller has three completion points:
 
 ```yaml
 uses: ./.github/workflows/reusable-node-ci.yml
@@ -109,11 +130,13 @@ with:
   node-version: '22'
 ```
 
-The called workflow must use `workflow_call`, define a string `node-version` input with default `22`, and consume `${{ inputs.node-version }}`.
+The called workflow has two completion points: define `workflow_call` with a string `node-version` input, and consume `${{ inputs.node-version }}`.
+
+Permissions, runner, checkout, and the Composite Action are provided. This module focuses on the caller/callee interface contract.
 
 ### 3.5 Self-hosted Runner
 
-`runs-on` must match all of:
+Complete one point: `runs-on` must match all of:
 
 ```yaml
 [self-hosted, linux, x64, training, codespace, ephemeral]
@@ -123,7 +146,22 @@ All labels are AND conditions. One missing label leaves the job queued.
 
 ### 3.6 CodeQL
 
-Complete push to `main`, pull request, weekly schedule, and manual dispatch; `contents: read`; `security-events: write`; CodeQL init, JavaScript language, autobuild, and analyze.
+Complete these three points:
+
+- Push to `main`, pull request, weekly schedule, and manual dispatch.
+- `security-events: write` permission.
+- JavaScript scan language.
+
+Checkout, runner, and CodeQL Init/Autobuild/Analyze are provided. This module focuses on events, permissions, and language configuration.
+
+### 3.7 Final Capstone
+
+Complete two points:
+
+- Manual `workflow_dispatch`.
+- Append the validation result to `GITHUB_STEP_SUMMARY`.
+
+The other CI steps are provided. This module focuses on manual execution and Job Summary.
 
 ## 4. Checking the solution
 
